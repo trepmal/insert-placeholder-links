@@ -1,4 +1,4 @@
 Insert Placeholder Links
 ========================
 
-![screenshot-1.png](nav-menu-metabox)
+![nav-menu-metabox](screenshot-1.png)
