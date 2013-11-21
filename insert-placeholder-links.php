@@ -44,10 +44,13 @@ class Insert_Placeholder_Links {
 		?><script>
 		jQuery('#submit-placeholder-links').click( function(ev) {
 			ev.preventDefault();
-			var test = 0;
-			for( i=1; i<=jQuery('#number-of-links').val(); i++ ) {
-				// unfortunately, these links will not always appear in order. my js-fu is too limited
-				wpNavMenu.addLinkToMenu( '#', 'Link '+i, wpNavMenu.addMenuItemToBottom, function() {} );
+			var max = jQuery('#number-of-links').val();
+			insertPlaceholderLink(1);
+			function insertPlaceholderLink( i ) {
+				var i;
+				wpNavMenu.addLinkToMenu( '#', 'Link '+i, wpNavMenu.addMenuItemToBottom, function() {
+					if ( i < max ) insertPlaceholderLink( i+1 );
+				} );
 			}
 		});
 		</script><?php
