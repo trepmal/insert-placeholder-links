@@ -17,30 +17,42 @@
 $insert_placeholder_links = new Insert_Placeholder_Links();
 
 class Insert_Placeholder_Links {
+
+	/**
+	 *
+	 */
 	function __construct() {
-		add_action( 'admin_init', array( &$this, 'admin_init' ) );
-		add_action( 'admin_footer-nav-menus.php', array( &$this, 'admin_footer' ) );
+		add_action( 'admin_init',                 array( $this, 'admin_init' ) );
+		add_action( 'admin_footer-nav-menus.php', array( $this, 'admin_footer' ) );
 	}
 
+	/**
+	 *
+	 */
 	function admin_init() {
-		add_meta_box( 'ipl', __('Placeholder Links', 'ipl' ), array( &$this, 'add_meta_box' ), 'nav-menus', 'side', 'low' );
+		add_meta_box( 'ipl', __( 'Placeholder Links', 'ipl' ), array( $this, 'add_meta_box' ), 'nav-menus', 'side', 'low' );
 	}
 
+	/**
+	 *
+	 */
 	function add_meta_box() {
-		printf( __( 'Insert %s Links', 'ipl' ), '<input type="number" id="number-of-links" class="small-text" />' );
+		printf( __( 'Insert %s Links', 'ipl' ), '<input type="number" id="number-of-links" class="small-text" value="5" />' );
 		?>
 		<p class="button-controls">
-			<span class="list-controls">
-				<a href="#" class="select-all-placeholder-links"><?php _e('Select All', 'ipl' ); ?></a>
-			</span>
 			<span class="add-to-menu">
-				<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e('Add to Menu', 'ipl' ); ?>" name="add-taxonomy-menu-item" id="submit-placeholder-links" />
+				<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to Menu', 'ipl' ); ?>" name="add-placeholder-menu-item" id="submit-placeholder-links" />
 				<span class="spinner"></span>
 			</span>
 		</p><?php
 	}
 
+	/**
+	 *
+	 */
 	function admin_footer() {
+		// We don't use a for loop because then things happen
+		// asyncronously and our numbered links don't appear in order
 		?><script>
 		jQuery('#submit-placeholder-links').click( function(ev) {
 			ev.preventDefault();
@@ -49,7 +61,9 @@ class Insert_Placeholder_Links {
 			function insertPlaceholderLink( i ) {
 				var i;
 				wpNavMenu.addLinkToMenu( '#', 'Link '+i, wpNavMenu.addMenuItemToBottom, function() {
-					if ( i < max ) insertPlaceholderLink( i+1 );
+					if ( i < max ) {
+						insertPlaceholderLink( i+1 );
+					}
 				} );
 			}
 		});
